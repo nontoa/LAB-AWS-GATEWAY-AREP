@@ -19,28 +19,27 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
+import org.apache.log4j.BasicConfigurator;
 import spark.Request;
 import spark.Response;
 
 public class SparkWebApp {
 
     public LinkedList<Double> lista = new LinkedList<Double>();
-    public static Double media = 0.0;
-    public static Double desviacion = 0.0;    
+     
 
     public static void main(String[] args) {
-        port(getPort());        
-        //get("/", (req, res) -> indexPage(req, res));
+        BasicConfigurator.configure();
+        port(getPort());                
         get("/calculos", (req, res) -> calculosPage(req, res));
         get("/respuesta", (req, res) -> logicaPage(req, res));
-
     }
 
     static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
         }
-        return 4567; //returns default port if heroku-port isn't set (i.e.on localhost)
+        return 8080; //returns default port if heroku-port isn't set (i.e.on localhost)
     }
 
    
@@ -59,8 +58,7 @@ public class SparkWebApp {
                 + "      <p>Ingrese un numero para calcular el cuadrado.</p>\n"
                 + "       <form action=\"/respuesta\">\n"                
                 + "           <input type=\"text\" placeholder=\"Numero\" name=\"inputData\" ><br><br>\n"
-                + "           <input type=\"submit\" value=\"Calcular\">\n"
-               // + "      <a href = \"/respuesta\" target = \"_self\">Ver Respuesta</a>\n"
+                + "           <input type=\"submit\" value=\"Calcular\">\n"               
                 + "       </form>\n"
                 + "</center>\n"
                 + "</body>\n"
